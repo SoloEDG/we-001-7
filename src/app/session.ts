@@ -3,6 +3,7 @@ import { clone } from "../shared/document";
 import { createMap } from "../features/terrain";
 import { createUnits } from "../features/roster";
 import { order } from "../features/initiative";
+import { createMissionState } from "../features/mission/model/mission";
 export function newSession(): Session {
   const live: Battle = {
     tiles: createMap(),
@@ -11,6 +12,9 @@ export function newSession(): Session {
     queue: [],
     active: "",
     ended: null,
+    mission: { type: "annihilation" },
+    missionState: createMissionState(),
+    endReason: null,
   };
   live.queue = order(live);
   live.active = live.queue[0];

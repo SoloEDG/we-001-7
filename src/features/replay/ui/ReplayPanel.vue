@@ -29,20 +29,27 @@ defineEmits<{ seek: [cursor: number]; play: []; stop: []; download: [] }>();
       ><button
         v-for="(e, i) in events"
         :key="e.id"
-        :class="{ chosen: cursor === i + 1 }"
+        :class="{ chosen: cursor === i + 1, terminal: !!e.after.ended }"
         @click="$emit('seek', i + 1)"
       >
         <small>{{ String(e.id).padStart(2, "0") }}</small
         >{{ e.label
         }}<span>{{
-          e.kind === "move"
-            ? "↗"
-            : e.kind === "skill"
-              ? "✧"
-              : e.kind === "terrain"
-                ? "△"
-                : "→"
+          e.after.ended
+            ? e.after.ended === "azure"
+              ? "胜"
+              : "负"
+            : e.kind === "move"
+              ? "↗"
+              : e.kind === "skill"
+                ? "✧"
+                : e.kind === "terrain"
+                  ? "△"
+                  : "→"
         }}</span>
+        <em v-if="e.after.endReason" class="event-reason">{{
+          e.after.endReason
+        }}</em>
       </button>
     </div>
   </section>

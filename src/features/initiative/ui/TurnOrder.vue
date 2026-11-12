@@ -1,13 +1,21 @@
 <script setup lang="ts">
 import type { Battle } from "../../../shared/types";
 import { turnLabel, turnProgress } from "../model/clock";
+import { roundsLeft } from "../../mission/model/mission";
 defineProps<{ battle: Battle }>();
 </script>
 <template>
   <section class="turn-strip">
     <div>
       <div class="eyebrow">INITIATIVE / 速度降序</div>
-      <h3>{{ turnLabel(battle) }}</h3>
+      <h3>
+        {{ turnLabel(battle) }}
+        <em
+          v-if="roundsLeft(battle) !== null && !battle.ended"
+          class="rounds-left"
+          >剩余 {{ roundsLeft(battle) }} 回合</em
+        >
+      </h3>
     </div>
     <div class="queue">
       <span

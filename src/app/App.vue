@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { BattleMap, TerrainPanel } from "../features/terrain";
 import { RosterPanel } from "../features/roster";
 import { ActionPanel } from "../features/tactics";
 import { TurnOrder } from "../features/initiative";
 import { ReplayPanel, downloadArchive } from "../features/replay";
+import { MissionPanel, missionBriefs, missionNames, normalizeMission } from "../features/mission";
 import { key } from "../shared/document";
 import { useWorkspace } from "./workspace";
 const {
@@ -16,15 +18,33 @@ const {
   battle,
   actor,
   locked,
+  deploying,
   routes,
   targets,
   path,
   playback,
+  missionDraft,
+  zoneMode,
   cell,
   wait,
   seek,
   reset,
+  patchMission,
+  applyMission,
+  setZoneMode,
 } = useWorkspace();
+const badge = computed(() => {
+  const m = normalizeMission(battle.value.mission, battle.value);
+  if (battle.value.ended)
+    return {
+      title: battle.value.ended === "azure" ? "任务成功" : "任务失败",
+      sub: battle.value.endReason ?? "战斗结束",
+    };
+  return {
+    title: missionNames[m.type],
+    sub: missionBriefs[m.type],
+  };
+});
 </script>
 <template>
   <main>
@@ -45,13 +65,23 @@ const {
         <p>利用地形，掌握先机。每一次行动，都有迹可循。</p>
       </div>
       <div class="live-badge">
-        <i />{{ cursor < 0 ? "实战指挥" : "历史回放 · 只读"
-        }}<small>消灭敌方所有角色获胜</small>
+        <i :class="{ ended: !!battle.ended }" />{{
+          cursor < 0 ? "实战指挥" : "历史回放 · 只读"
+        }}<small>{{ badge.title }} · {{ badge.sub }}</small>
       </div>
     </div>
     <TurnOrder :battle="battle" />
     <div class="workspace">
       <aside>
+        <MissionPanel
+          :battle="battle"
+          :draft="missionDraft"
+          :deploying="deploying"
+          :zone-mode="zoneMode"
+          @patch="patchMission"
+          @zone="setZoneMode"
+          @apply="applyMission"
+        />
         <RosterPanel
           :units="battle.units"
           :selected="selected"
@@ -59,10 +89,11 @@ const {
           @select="selected = $event"
         /><TerrainPanel
           :brush="brush"
-          :locked="locked"
+          :locked="locked || !!zoneMode"
           @paint="
             brush = $event;
             skill = '';
+            setZoneMode(null);
           "
         />
       </aside>
@@ -79,7 +110,7 @@ const {
           <span>✦ 战场提示</span>
           <p>
             密林提供 3 点掩护；高地攻击 +2；迟缓减少 2
-            点移动；灼烧在自身行动结束时结算。
+            点移动；灼烧在自身行动结束时结算。任务进度在每次行动提交时统一结算并随回放保存。
           </p>
         </div>
       </div>
@@ -92,6 +123,7 @@ const {
           @skill="
             skill = $event;
             brush = null;
+            setZoneMode(null);
           "
           @wait="wait"
         /><ReplayPanel

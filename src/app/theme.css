@@ -134,6 +134,176 @@ p {
   font-size: 11px;
   margin-top: 10px;
 }
+.live-badge i.ended {
+  background: #d58a6a;
+}
+/* 任务配置面板 */
+.mission-types {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.mission-types button {
+  font-size: 11px;
+  padding: 8px 6px;
+}
+.mission-form {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 12px;
+}
+.mission-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 11px;
+  color: #9fb0a3;
+}
+.mission-form select,
+.mission-form input {
+  font: inherit;
+  background: #202c29;
+  color: #d6dedb;
+  border: 1px solid #34423c;
+  border-radius: 4px;
+  padding: 8px;
+}
+.zone-btn {
+  font-size: 11px;
+  border-style: dashed;
+}
+.zone-count {
+  font-size: 10px;
+  color: #839c8a;
+}
+.apply-mission {
+  width: 100%;
+}
+.mission-live {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.mission-progress-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+.mission-progress-head span {
+  color: #c7b679;
+}
+.mission-progress-track {
+  background: #34433a;
+  height: 6px;
+}
+.mission-progress-track i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #79b9b5, #c7b679);
+  transition: width 0.25s;
+}
+.mission-live > small {
+  font-size: 10px;
+  color: #839c8a;
+}
+.mission-result {
+  margin-top: 4px;
+  padding: 8px;
+  font-size: 11px;
+  border-radius: 4px;
+}
+.mission-result.azure {
+  background: #2c4438;
+  color: #b4d2a3;
+  border: 1px solid #5f8a63;
+}
+.mission-result.ember {
+  background: #4a322a;
+  color: #e0aa8c;
+  border: 1px solid #8f5f4b;
+}
+.rounds-left {
+  font-style: normal;
+  font-size: 10px;
+  color: #d5ac73;
+  margin-left: 10px;
+  padding: 2px 7px;
+  border: 1px solid #6b5a3a;
+  border-radius: 10px;
+}
+/* 地图目标区域 */
+.tile.exit-zone {
+  background: #3d5a63;
+  box-shadow: inset 0 0 0 2px #8fd3d0;
+}
+.tile.control-zone {
+  background: #5a5338;
+  box-shadow: inset 0 0 0 2px #d5c07a;
+}
+.tile.exit-zone.reachable,
+.tile.control-zone.reachable {
+  box-shadow: inset 0 0 0 2px #79b9b58a;
+}
+.zone-glyph {
+  position: absolute;
+  top: 2px;
+  right: 3px;
+  font-size: 9px;
+  font-style: normal;
+  z-index: 1;
+  padding: 1px 3px;
+  border-radius: 3px;
+}
+.zone-glyph.exit {
+  background: #8fd3d0;
+  color: #17302f;
+}
+.zone-glyph.zone {
+  background: #d5c07a;
+  color: #332c14;
+}
+.legend-exit {
+  background: #8fd3d0;
+  color: #17302f;
+  padding: 0 3px;
+  border-radius: 2px;
+}
+.legend-zone {
+  background: #d5c07a;
+  color: #332c14;
+  padding: 0 3px;
+  border-radius: 2px;
+}
+.pawn.escort {
+  outline: 2px solid #e0a860;
+}
+.escort-tag {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  font-style: normal;
+  font-size: 9px;
+  background: #e0a860;
+  color: #2e2110;
+  padding: 1px 4px;
+  border-radius: 8px;
+  z-index: 2;
+}
+.event-list button {
+  flex-wrap: wrap;
+}
+.event-list button.terminal {
+  border-left: 2px solid #d58a6a;
+}
+.event-list .event-reason {
+  flex-basis: 100%;
+  font-style: normal;
+  font-size: 9px;
+  color: #c99a82;
+  margin-left: 26px;
+}
 .turn-strip {
   display: flex;
   gap: 30px;
